@@ -17,7 +17,6 @@ namespace Task1
                 Console.ReadKey();
                 return 1;
             }
-
             var bankClients = new BankClients();
             try
             {
@@ -32,27 +31,30 @@ namespace Task1
                 Console.ReadKey();
                 return 1;
             }
-            var bankReport = new
-            {
-                OperationsSumByApril = bankClients.OperationsSumByMonth(4),
-                ClientsWithoutCreditInApril = bankClients.ClientsWithoutCreditByMonth(4),
-                ClientWithBiggestDebitSum = bankClients.ClientWithBiggestOperationSum("Debit"),
-                ClientWithBiggestCreditSum = bankClients.ClientWithBiggestOperationSum("Credit"),
-                ClientWithBiggestBalanceByMay = bankClients.ClientWithBiggestBalanceByDate(new DateTime(2018, 5, 1))
-            };
-            Console.WriteLine($"Sum by operation type in april:\nCredit: {bankReport.OperationsSumByApril["Credit"]}; Debit: {bankReport.OperationsSumByApril["Debit"]}");
-            Console.WriteLine("\nClients without credit in april:");
-            bankReport.ClientsWithoutCreditInApril.ForEach(Console.WriteLine);
-            Console.WriteLine($"\nClient with biggest debit sum:\n{bankReport.ClientWithBiggestDebitSum}");
-            Console.WriteLine($"\nClient with biggest credit sum:\n{bankReport.ClientWithBiggestCreditSum}");
-            Console.WriteLine($"\nClient with biggest balance by 01.05:\n{bankReport.ClientWithBiggestBalanceByMay}");
             try
             {
+                var bankReport = new
+                {
+                    OperationsSumByApril = bankClients.OperationsSumByMonth(4),
+                    ClientsWithoutCreditInApril = bankClients.ClientsWithoutCreditByMonth(4),
+                    ClientWithBiggestDebitSum = bankClients.ClientWithBiggestOperationSum("Debit"),
+                    ClientWithBiggestCreditSum = bankClients.ClientWithBiggestOperationSum("Credit"),
+                    ClientWithBiggestBalanceByMay = bankClients.ClientWithBiggestBalanceByDate(new DateTime(2018, 5, 1))
+                };
                 SaveToJson(bankReport, "bankReport.json");
+                
+                Console.WriteLine($"Sum by operation type in april:\nCredit: {bankReport.OperationsSumByApril["Credit"]}; Debit: {bankReport.OperationsSumByApril["Debit"]}");
+                Console.WriteLine("\nClients without credit in april:");
+                bankReport.ClientsWithoutCreditInApril.ForEach(Console.WriteLine);
+                Console.WriteLine($"\nClient with biggest debit sum:\n{bankReport.ClientWithBiggestDebitSum}");
+                Console.WriteLine($"\nClient with biggest credit sum:\n{bankReport.ClientWithBiggestCreditSum}");
+                Console.WriteLine($"\nClient with biggest balance by 01.05:\n{bankReport.ClientWithBiggestBalanceByMay}");
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Could not write to file\n{e.Message}");
+                Console.WriteLine($"Bank report error\n{e.Message}\nPress any key");
+                Console.ReadKey();
+                return 1;
             }
 
             Console.WriteLine("Finished. Press any key");
